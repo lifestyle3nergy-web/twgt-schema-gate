@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/policy-decision.json",
+  "title": "PolicyDecision",
+  "type": "object",
+  "required": ["decision", "policy_id", "evaluated_at"],
+  "properties": {
+    "decision":       { "enum": ["allow", "deny", "require_approval"] },
+    "policy_id":      { "type": "string", "minLength": 1 },
+    "policy_version": { "type": "string" },
+    "evaluated_at":   { "type": "string", "format": "date-time" },
+    "reasons":        { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

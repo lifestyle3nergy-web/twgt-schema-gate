@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/tool-invocation.json",
+  "title": "ToolInvocation",
+  "type": "object",
+  "required": ["invocation_id", "tool", "arguments", "issued_at", "trace_context"],
+  "properties": {
+    "invocation_id": { "type": "string", "format": "uuid" },
+    "tool":          { "type": "string", "minLength": 1 },
+    "arguments":     { "type": "object" },
+    "issued_at":     { "type": "string", "format": "date-time" },
+    "trace_context": { "$ref": "common/trace-context.json" },
+    "dry_run":       { "type": "boolean", "default": true }
+  },
+  "additionalProperties": false
+}

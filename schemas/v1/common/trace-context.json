@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/trace-context.json",
+  "title": "TraceContext",
+  "type": "object",
+  "required": ["trace_id", "span_id"],
+  "properties": {
+    "trace_id":       { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "span_id":        { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "parent_span_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "sampled":        { "type": "boolean" }
+  },
+  "additionalProperties": false
+}
