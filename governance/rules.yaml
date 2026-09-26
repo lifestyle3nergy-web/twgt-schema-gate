@@ -1,0 +1,66 @@
+version: 1
+updated: 2026-09-27
+
+rules:
+  - id: G-01-branch-protection
+    constraint: >
+      Unreviewed commits reaching main can bypass CI verification, so
+      the exact-head evidence required by wiki.md §5 is not obtained
+      before merge.
+    evidence_class: engineering_inference
+    wiki_refs:
+      - "§5 transfer path"
+      - "§9 EPR completion"
+    triggers:
+      - type: time
+        next_review: 2027-03-27
+      - type: event
+        on: release_tagged
+        tag_pattern: "v*.*.*"
+      - type: threshold
+        condition: "false_positive_rate > 0.05"
+    deprecation_condition: >
+      GitHub provides native exact-head evidence or an equivalent
+      merge-gate that records head SHA + CI run URL without a workflow.
+    owner: lifestyle3nergy-web
+    last_reviewed: 2026-09-27
+
+  - id: G-02-reproducibility
+    constraint: >
+      Test output that varies between runs makes "green on the exact
+      head" unverifiable because the same commit can pass and fail.
+    evidence_class: engineering_inference
+    wiki_refs:
+      - "§2.3 Measured result"
+      - "§5 transfer path"
+    triggers:
+      - type: time
+        next_review: 2027-03-27
+      - type: event
+        on: schema_registry_change
+    deprecation_condition: >
+      The test suite becomes fully deterministic by construction and
+      normalization is provably unnecessary.
+    owner: lifestyle3nergy-web
+    last_reviewed: 2026-09-27
+
+  - id: G-03-release-signing
+    constraint: >
+      Released artifacts cannot be traced back to the approved commit
+      and CI run without cryptographic binding.
+    evidence_class: engineering_inference
+    wiki_refs:
+      - "§5 transfer path"
+      - "§9 EPR completion"
+    triggers:
+      - type: time
+        next_review: 2027-03-27
+      - type: event
+        on: release_tagged
+        tag_pattern: "v*.*.*"
+    deprecation_condition: >
+      Package registries provide equivalent verifiable provenance
+      (e.g. npm provenance + PyPI attestations) as the primary
+      mechanism, making repository-side signing redundant.
+    owner: lifestyle3nergy-web
+    last_reviewed: 2026-09-27
