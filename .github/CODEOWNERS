@@ -1,0 +1,9 @@
+# P-003 twgt-schema-gate — code ownership
+
+* @lifestyle3nergy-web
+
+/schemas/          @lifestyle3nergy-web
+/validator/        @lifestyle3nergy-web
+/contract-tests/   @lifestyle3nergy-web
+/.github/          @lifestyle3nergy-web
+/governance/       @lifestyle3nergy-web
