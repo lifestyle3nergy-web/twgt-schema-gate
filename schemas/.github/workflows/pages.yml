@@ -1,0 +1,64 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'schemas/**'
+      - 'wiki.md'
+      - 'assets/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc
+
+      - name: Stage schemas
+        run: |
+          mkdir -p _site/schemas
+          cp -r schemas/. _site/schemas/
+
+      - name: Stage assets
+        run: |
+          mkdir -p _site
+          cp assets/wiki.css _site/wiki.css
+
+      - name: Render wiki
+        run: |
+          pandoc wiki.md \
+            -f gfm \
+            -t html5 \
+            --standalone \
+            --toc \
+            --toc-depth=2 \
+            --css=wiki.css \
+            --metadata title="TWGT Engineering Evolution Atlas" \
+            --metadata lang=en \
+            -o _site/index.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
