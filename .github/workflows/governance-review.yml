@@ -1,0 +1,82 @@
+name: governance-review
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Find stale rules
+        id: stale
+        run: |
+          set -euo pipefail
+          TODAY="$(date -u +%Y-%m-%d)"
+          STALE=""
+          for RULE in $(yq '.rules[].id' governance/rules.yaml); do
+            NEXT="$(yq ".rules[] | select(.id == \"$RULE\") | .triggers[] | select(.type == \"time\") | .next_review" governance/rules.yaml)"
+            if [[ -z "$NEXT" ]]; then continue; fi
+            if [[ "$NEXT" < "$TODAY" ]]; then
+              STALE="${STALE}${RULE} (next_review=${NEXT})"$'\n'
+            fi
+          done
+          if [[ -z "$STALE" ]]; then
+            echo "stale=0" >> "$GITHUB_OUTPUT"
+            echo "No stale rules."
+          else
+            echo "stale=1" >> "$GITHUB_OUTPUT"
+            {
+              echo "stale_list<<EOF"
+              printf '%s' "$STALE"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            printf '%s\n' "$STALE"
+          fi
+
+      - name: Open tracking issue if stale rules exist
+        if: steps.stale.outputs.stale == '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BODY="$(cat <<EOF
+          The following governance rules have passed their review date:
+
+          \`\`\`
+          ${{ steps.stale.outputs.stale_list }}
+          \`\`\`
+
+          Per \`governance/lifecycle.md\`, each rule must be one of:
+
+          1. Re-validated — evidence still holds. Update \`next_review\`.
+          2. Amended — constraint has changed. Open a PR with rationale.
+          3. Deprecated — the deprecation condition has been met. Open a
+             PR that removes the rule and states the condition.
+
+          No action is taken automatically. The rule stays in force until
+          a human decides otherwise.
+          EOF
+          )"
+
+          EXISTING="$(gh issue list --state open --search "governance review in:title" --json number --jq '.[0].number // empty')"
+          if [[ -n "$EXISTING" ]]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create \
+              --title "governance review: rules due for re-validation" \
+              --body "$BODY"
+          fi
