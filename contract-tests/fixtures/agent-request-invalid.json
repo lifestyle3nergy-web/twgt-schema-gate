@@ -1,7 +1,7 @@
 {
-  "issued_at": "sample",
-  "source": "sample",
-  "capability": "sample",
+  "issued_at": "2026-01-01T00:00:00Z",
+  "source": "x",
+  "capability": "x",
   "payload": {},
   "trace_context": "sample"
 }

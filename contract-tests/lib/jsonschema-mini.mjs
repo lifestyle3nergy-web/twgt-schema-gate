@@ -4,10 +4,20 @@ export function validate(schema, data, root = schema, path = "$") {
   if (schema === false) { errors.push({ path, msg: "schema is false" }); return errors; }
   const S = (schema.$ref && schema.$ref.startsWith("#/")) ? resolveRef(root, schema.$ref) : schema;
   const t = S.type;
-  const typeOf = (v) => Array.isArray(v) ? "array" : v === null ? "null" : typeof v;
+  const typeOf = (v) =>
+    Array.isArray(v) ? "array" :
+    v === null ? "null" :
+    (typeof v === "number" && Number.isInteger(v)) ? "integer" :
+    typeof v;
+  const matches = (want, v) => {
+    const tv = typeOf(v);
+    if (want === "number")  return tv === "number" || tv === "integer";
+    if (want === "integer") return tv === "integer";
+    return tv === want;
+  };
   if (t) {
     const want = Array.isArray(t) ? t : [t];
-    if (!want.includes(typeOf(data)))
+    if (!want.some(w => matches(w, data)))
       errors.push({ path, msg: `expected ${want.join("|")}, got ${typeOf(data)}` });
   }
   if (S.const !== undefined && JSON.stringify(data) !== JSON.stringify(S.const))

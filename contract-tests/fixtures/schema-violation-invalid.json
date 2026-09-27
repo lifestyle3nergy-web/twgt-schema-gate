@@ -1,10 +1,10 @@
 {
-  "timestamp": "sample",
-  "schema_id": "sample",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "schema_id": "https://example.com/x",
   "schema_version": "sample",
   "direction": "input",
-  "source": "sample",
-  "target": "sample",
+  "source": "x",
+  "target": "x",
   "violations": [
     {
       "path": "sample",
@@ -12,7 +12,7 @@
       "message": "sample"
     }
   ],
-  "payload_hash": "sample",
+  "payload_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "payload_size": 0,
   "severity": "warn"
 }
