@@ -1,0 +1,18 @@
+{
+  "timestamp": "sample",
+  "schema_id": "sample",
+  "schema_version": "sample",
+  "direction": "input",
+  "source": "sample",
+  "target": "sample",
+  "violations": [
+    {
+      "path": "sample",
+      "keyword": "sample",
+      "message": "sample"
+    }
+  ],
+  "payload_hash": "sample",
+  "payload_size": 0,
+  "severity": "warn"
+}
