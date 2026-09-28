@@ -70,7 +70,43 @@ function matchPattern(pattern) {
   return "sample";
 }
 
-function stub(schema) {
+// Load every local schema once so fixture generation can materialize local $ref
+// dependencies instead of emitting placeholder strings such as "sample".
+const schemaById = new Map();
+const schemaByPath = new Map();
+const schemaFiles = [];
+for (const dir of ["schemas/v1", "schemas/v1/common"]) {
+  const abs = join(REPO, dir);
+  if (!existsSync(abs)) continue;
+  for (const f of readdirSync(abs)) {
+    if (!f.endsWith(".json") || f === "registry.json") continue;
+    const path = join(abs, f);
+    const schema = JSON.parse(readFileSync(path, "utf8"));
+    schemaFiles.push({ path, schema });
+    if (schema.$id) schemaById.set(schema.$id, schema);
+    schemaByPath.set(resolve(path), schema);
+  }
+}
+
+function resolveLocalRef(ref, baseId, basePath) {
+  if (ref.startsWith("#")) return null; // local fragment refs are handled by validators.
+  try {
+    const resolvedId = new URL(ref, baseId || "https://local.invalid/").href;
+    if (schemaById.has(resolvedId)) return schemaById.get(resolvedId);
+  } catch {}
+  try {
+    const resolvedPath = resolve(dirname(basePath), ref);
+    if (schemaByPath.has(resolvedPath)) return schemaByPath.get(resolvedPath);
+  } catch {}
+  return null;
+}
+
+function stub(schema, baseId = schema.$id, basePath = "") {
+  if (schema.$ref) {
+    const target = resolveLocalRef(schema.$ref, baseId, basePath);
+    if (!target) throw new Error(`unresolved local fixture $ref: ${schema.$ref}`);
+    return stub(target, target.$id || baseId, basePath);
+  }
   if (schema.const !== undefined) return schema.const;
   if (schema.enum) return schema.enum[0];
   const t = schema.type || (schema.properties ? "object" : "string");
@@ -78,10 +114,10 @@ function stub(schema) {
     case "object": {
       const o = {}; const props = schema.properties || {};
       const keys = schema.required || Object.keys(props);
-      for (const k of keys) o[k] = props[k] ? stub(props[k]) : null;
+      for (const k of keys) o[k] = props[k] ? stub(props[k], baseId, basePath) : null;
       return o;
     }
-    case "array":   return schema.items ? [stub(schema.items)] : [];
+    case "array":   return schema.items ? [stub(schema.items, baseId, basePath)] : [];
     case "string": {
       if (schema.pattern) return matchPattern(schema.pattern);
       if (schema.format === "date-time") return "2026-01-01T00:00:00Z";
@@ -112,18 +148,12 @@ function invalidate(schema, data) {
 }
 
 let made = 0;
-for (const dir of ["schemas/v1", "schemas/v1/common"]) {
-  const abs = join(REPO, dir);
-  if (!existsSync(abs)) continue;
-  for (const f of readdirSync(abs)) {
-    if (!f.endsWith(".json") || f === "registry.json") continue;
-    const s = JSON.parse(readFileSync(join(abs, f), "utf8"));
-    const name = basename(f, ".json");
-    const good = stub(s);
-    writeFileSync(join(OUT, `${name}-valid.json`),   JSON.stringify(good, null, 2));
-    writeFileSync(join(OUT, `${name}-invalid.json`), JSON.stringify(invalidate(s, good), null, 2));
-    made += 2;
-    console.log(`  ${name}-{valid,invalid}.json`);
-  }
+for (const { path, schema: s } of schemaFiles) {
+  const name = basename(path, ".json");
+  const good = stub(s, s.$id, path);
+  writeFileSync(join(OUT, `${name}-valid.json`),   JSON.stringify(good, null, 2));
+  writeFileSync(join(OUT, `${name}-invalid.json`), JSON.stringify(invalidate(s, good), null, 2));
+  made += 2;
+  console.log(`  ${name}-{valid,invalid}.json`);
 }
 console.log(`generated ${made} fixture(s)`);
