@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/provenance.json",
+  "title": "Provenance",
+  "type": "object",
+  "required": ["artifact_hash", "produced_at", "producer"],
+  "properties": {
+    "artifact_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "produced_at":   { "type": "string", "format": "date-time" },
+    "producer":      { "type": "string", "minLength": 1 },
+    "source_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "signatures":    { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}
