@@ -1,0 +1,1 @@
+{"decision":{"state":"ADMITTED","reason":"ALL_CHECKS_PASSED","checks":[{"state":"VALIDATED","reason":"NO_API_ERROR"}]},"batch":{"bridge_version":"0.1.0","collected_at":"2026-09-29T00:00:00Z","source":{"owner":"lifestyle3nergy-web","repo":"twgt-schema-gate"},"entries":[{"name":"repo-meta","ok":true,"record":{"default_branch":"main"}}]}}
