@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/contracts/twgt.admission/1.0.0.json",
+  "title": "TWGT Admission Contract",
+  "description": "Versioned cross-repository admission boundary. Consumers validate this contract and MUST NOT redefine its states or reason-code wire values. A reason code is terminal only when no higher-priority failure condition exists.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "version", "states", "reason_codes"],
+  "properties": {
+    "contract": { "const": "twgt.admission" },
+    "version": { "const": "1.0.0" },
+    "states": { "type": "array", "const": ["ADMITTED", "HELD", "REJECTED"] },
+    "reason_codes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["BASELINE_ABSENT", "BASELINE_PRESENT", "API_ERROR", "NO_API_ERROR", "EVIDENCE_MISSING_VERSION", "UNSUPPORTED_SCHEMA_VERSION", "SCHEMA_VERSION_OK", "EVIDENCE_MISSING_TIMESTAMP", "EVIDENCE_BAD_TIMESTAMP", "STALE_EVIDENCE", "FRESH", "ALL_CHECKS_PASSED", "PIN_SCHEMA_MISSING_OR_EMPTY"],
+      "properties": {
+        "BASELINE_ABSENT": { "const": { "state": "HELD" } },
+        "BASELINE_PRESENT": { "const": { "state": "ADMITTED" } },
+        "API_ERROR": { "const": { "state": "HELD" } },
+        "NO_API_ERROR": { "const": { "state": "ADMITTED" } },
+        "EVIDENCE_MISSING_VERSION": { "const": { "state": "HELD" } },
+        "UNSUPPORTED_SCHEMA_VERSION": { "const": { "state": "HELD" } },
+        "SCHEMA_VERSION_OK": { "const": { "state": "ADMITTED" } },
+        "EVIDENCE_MISSING_TIMESTAMP": { "const": { "state": "HELD" } },
+        "EVIDENCE_BAD_TIMESTAMP": { "const": { "state": "HELD" } },
+        "STALE_EVIDENCE": { "const": { "state": "HELD" } },
+        "FRESH": { "const": { "state": "ADMITTED" } },
+        "ALL_CHECKS_PASSED": { "const": { "state": "ADMITTED" } },
+        "PIN_SCHEMA_MISSING_OR_EMPTY": { "const": { "state": "HELD" } }
+      }
+    }
+  }
+}
