@@ -51,7 +51,11 @@ jobs:
     needs: [registry-integrity, schema-fixtures]
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-03 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Differential normalization + divergence tests
+        run: node --test contract-tests/differential/run.test.mjs
 
   safety-gate:
     name: safety-gate
