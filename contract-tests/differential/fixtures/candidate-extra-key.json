@@ -1,0 +1,14 @@
+{
+  "task_id": "task-001",
+  "executor": "local",
+  "route_reason": "direct",
+  "payload": {
+    "action": "read",
+    "target": "schemas/registry.json",
+    "result": { "count": 8, "ok": true }
+  },
+  "timestamp": "2026-10-01T00:00:00Z",
+  "duration_ms": 143,
+  "trace_id": "trace-baseline-abc",
+  "unexpected_field": "should-not-be-here"
+}
