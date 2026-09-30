@@ -51,28 +51,34 @@ jobs:
     needs: [registry-integrity, schema-fixtures]
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-03 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: node contract-tests/differential.mjs
 
   safety-gate:
     name: safety-gate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-04 not yet implemented" && exit 1
+      - run: node contract-tests/safety-gate.mjs
 
   privacy:
     name: privacy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-05 not yet implemented" && exit 1
+      - run: node contract-tests/privacy.mjs
 
   supply-chain:
     name: supply-chain
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-06 not yet implemented" && exit 1
+      - run: node contract-tests/supply-chain.mjs
 
   reproducibility:
     name: reproducibility
@@ -80,4 +86,7 @@ jobs:
     needs: [supply-chain]
     steps:
       - uses: actions/checkout@v4
-      - run: echo "G-02 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node contract-tests/reproducibility.mjs
