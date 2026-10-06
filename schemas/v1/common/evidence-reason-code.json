@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/evidence-reason-code.json",
+  "title": "EvidenceReasonCode",
+  "description": "Canonical reason codes emitted by evidence evaluation in twgt-bridge. Two groups: HELD-producing codes indicate a failure, staleness, or missing-input condition; EVIDENCE_READY-producing codes indicate a passing check. All codes are SCREAMING_SNAKE_CASE strings. No code in this enum carries admission authority. A code that reads as positive means only that a specific check passed on a specific head, not that the underlying change is admitted.",
+  "type": "string",
+  "enum": [
+    "ALL_CHECKS_PASSED",
+    "API_ERROR",
+    "BASELINE_ABSENT",
+    "BASELINE_PRESENT",
+    "EVIDENCE_BAD_TIMESTAMP",
+    "EVIDENCE_MISSING_TIMESTAMP",
+    "EVIDENCE_MISSING_VERSION",
+    "FRESH",
+    "NO_API_ERROR",
+    "SCHEMA_VERSION_OK",
+    "STALE_EVIDENCE",
+    "UNSUPPORTED_SCHEMA_VERSION"
+  ],
+  "examples": [
+    "BASELINE_ABSENT",
+    "API_ERROR",
+    "STALE_EVIDENCE",
+    "ALL_CHECKS_PASSED"
+  ]
+}
