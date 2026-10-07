@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "generated_at": "2026-09-27T00:00:00Z",
   "schemas": [
+    { "id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/evidence-reason-code.json", "path": "v1/common/evidence-reason-code.json" },
     { "id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/trace-context.json",   "path": "v1/common/trace-context.json" },
     { "id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/policy-decision.json", "path": "v1/common/policy-decision.json" },
     { "id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/provenance.json",      "path": "v1/common/provenance.json" },
