@@ -18,8 +18,8 @@ except Exception as e:
     IMPORT_ERR = str(e)
 
 if not HAVE:
-    out["note"] = f"python jsonschema not installed — skipped ({IMPORT_ERR})"
-    print(json.dumps(out, indent=2)); sys.exit(0)
+    out["note"] = f"python jsonschema unavailable — validation cannot run ({IMPORT_ERR})"
+    print(json.dumps(out, indent=2)); sys.exit(2)
 
 
 def build_registry():
