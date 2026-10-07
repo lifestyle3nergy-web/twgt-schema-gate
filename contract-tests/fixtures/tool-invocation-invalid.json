@@ -2,5 +2,8 @@
   "tool": "x",
   "arguments": {},
   "issued_at": "2026-01-01T00:00:00Z",
-  "trace_context": "sample"
+  "trace_context": {
+    "trace_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "span_id": "aaaaaaaaaaaaaaaa"
+  }
 }

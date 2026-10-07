@@ -4,5 +4,8 @@
   "source": "x",
   "capability": "x",
   "payload": {},
-  "trace_context": "sample"
+  "trace_context": {
+    "trace_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "span_id": "aaaaaaaaaaaaaaaa"
+  }
 }
