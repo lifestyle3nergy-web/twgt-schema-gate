@@ -1,0 +1,41 @@
+{
+  "decision": {
+    "state": "EVIDENCE_READY",
+    "checks": [
+      {
+        "state": "VALIDATED",
+        "reason": "ALL_CHECKS_PASSED"
+      }
+    ],
+    "reason": "ALL_CHECKS_PASSED"
+  },
+  "batch": {
+    "bridge_version": "x",
+    "collected_at": "2026-01-01T00:00:00Z",
+    "source": {
+      "owner": "x",
+      "repo": "x"
+    },
+    "entries": [
+      {
+        "name": "x",
+        "ok": true
+      }
+    ]
+  },
+  "manifest": {
+    "evidence_version": "1.0.0",
+    "bridge_version": "x",
+    "collected_at": "2026-01-01T00:00:00Z",
+    "source": {
+      "owner": "x",
+      "repo": "x"
+    },
+    "decision": {
+      "state": "EVIDENCE_READY",
+      "reason": "ALL_CHECKS_PASSED"
+    },
+    "payload_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "entry_count": 0
+  }
+}
