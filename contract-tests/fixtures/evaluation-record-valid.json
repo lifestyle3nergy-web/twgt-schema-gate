@@ -1,0 +1,10 @@
+{
+  "state": "EVIDENCE_READY",
+  "checks": [
+    {
+      "state": "VALIDATED",
+      "reason": "ALL_CHECKS_PASSED"
+    }
+  ],
+  "reason": "ALL_CHECKS_PASSED"
+}
