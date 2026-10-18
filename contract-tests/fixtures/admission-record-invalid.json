@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-01-01T00:00:00Z",
+  "actor": "sample",
+  "capability": {
+    "record_id": "sample",
+    "timestamp": "2026-01-01T00:00:00Z",
+    "name": "sample",
+    "source_type": "REPO",
+    "source_locator": "sample",
+    "contract_schema": "https://example.com/x",
+    "version_pin": "sample",
+    "authority_grant": "sample"
+  },
+  "boundary": "sample",
+  "decision": "GATE_PASS",
+  "evidence_ids": [
+    "sample"
+  ],
+  "signature": "sample"
+}

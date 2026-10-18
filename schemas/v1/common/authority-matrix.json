@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/authority-matrix.json",
+  "title": "AuthorityMatrix",
+  "type": "object",
+  "properties": {
+    "adr_allocation": {
+      "type": "string"
+    },
+    "admission_authority": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_emission": {
+      "type": "string"
+    },
+    "schema_authority": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "adr_allocation",
+    "admission_authority",
+    "evidence_emission",
+    "schema_authority"
+  ]
+}

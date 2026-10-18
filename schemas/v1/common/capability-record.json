@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/schemas/v1/common/capability-record.json",
+  "title": "CapabilityRecord",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "name": {
+      "type": "string"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "REPO",
+        "TOOL",
+        "SERVICE"
+      ]
+    },
+    "source_locator": {
+      "type": "string"
+    },
+    "contract_schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "version_pin": {
+      "type": "string"
+    },
+    "authority_grant": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "timestamp",
+    "name",
+    "source_type",
+    "source_locator",
+    "contract_schema",
+    "version_pin",
+    "authority_grant"
+  ]
+}
