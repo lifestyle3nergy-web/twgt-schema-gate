@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/admission-record.schema.json",
+  "title": "AdmissionRecord",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor": {
+      "type": "string"
+    },
+    "capability": {
+      "$ref": "capability-record.schema.json"
+    },
+    "boundary": {
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "reason-code.schema.json"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "signature": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "string"
+    },
+    "supersedes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "timestamp",
+    "actor",
+    "capability",
+    "boundary",
+    "decision",
+    "evidence_ids",
+    "signature"
+  ]
+}

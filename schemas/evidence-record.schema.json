@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lifestyle3nergy-web.github.io/twgt-schema-gate/evidence-record.schema.json",
+  "title": "EvidenceRecord",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "format": "uri"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "provenance": {
+      "type": "string"
+    },
+    "reviewer": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "signature": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "timestamp",
+    "source",
+    "digest",
+    "provenance",
+    "reviewer"
+  ]
+}
