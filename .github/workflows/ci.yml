@@ -62,21 +62,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-04 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Node safety gate
+        run: node contract-tests/safety-gate/run-ts.mjs
+      - name: Python safety gate
+        run: python3 contract-tests/safety-gate/run-py.py
 
   privacy:
     name: privacy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-05 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Node privacy
+        run: node contract-tests/privacy/run-ts.mjs
+      - name: Python privacy
+        run: python3 contract-tests/privacy/run-py.py
 
   supply-chain:
     name: supply-chain
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "SG-06 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Node supply-chain
+        run: node contract-tests/supply-chain/run-ts.mjs
+      - name: Python supply-chain
+        run: python3 contract-tests/supply-chain/run-py.py
 
   reproducibility:
     name: reproducibility
@@ -84,4 +111,13 @@ jobs:
     needs: [supply-chain]
     steps:
       - uses: actions/checkout@v4
-      - run: echo "G-02 not yet implemented" && exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Node reproducibility
+        run: node contract-tests/reproducibility/run-ts.mjs
+      - name: Python reproducibility
+        run: python3 contract-tests/reproducibility/run-py.py
