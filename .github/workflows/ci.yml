@@ -121,11 +121,17 @@ jobs:
         run: node contract-tests/reproducibility/run-ts.mjs
       - name: Python reproducibility
         run: python3 contract-tests/reproducibility/run-py.py
-- name: Setup OPA
-  run: |
-    curl -L -o /usr/local/bin/opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
-    chmod +x /usr/local/bin/opa
 
-- name: Run Rego Policy Tests
-  run: |
-    opa test policies -v
+  opa-policy:
+    name: opa-policy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup OPA
+        run: |
+          curl -sSL -o /usr/local/bin/opa \
+            https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x /usr/local/bin/opa
+          opa version
+      - name: Run Rego Policy Tests
+        run: opa test policies -v
